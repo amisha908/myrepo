@@ -1,0 +1,336 @@
+version: '3.4'
+
+services:
+    eureka-server:
+        container_name: server
+        image: steeltoeoss/eurekaserver:latest
+        ports:
+            - "8761:8761"
+        restart: on-failure
+        hostname: eureka-server
+        networks:
+            - backend_network
+
+    authapi:
+        container_name: authapi
+        image: amisha908/authapi
+        ports:
+             - "7002:80"
+        networks:
+            backend_network:
+                ipv4_address: "172.20.0.7"
+        build:
+            context: ./Ecom.Services.AuthAPI
+            dockerfile: Dockerfile
+        depends_on:
+            - sqlServer
+            - Rabbitmq
+            - eureka-server
+        environment:
+            ConnectionStrings__constr : 'Server=sqlServer,1433;Database=Ecom_Auth;User Id=SA;Password=MyVeryStrongPassword123;Encrypt=False'
+            ConnectionStrings__RabbitMQConnection : 'amqp://guest:guest@172.20.0.1:15001/'
+            ASPNETCORE_URLS : "http://+:80"
+            ASPNETCORE_ENVIRONMENT: "Development"
+
+    productapi:
+        container_name: productapi
+        image: amisha908/productapi
+        ports:
+            - "7001:80"
+        networks:
+            backend_network:
+                ipv4_address: "172.20.0.5"
+        build:
+            context: ./Ecom.Services.ProductAPI
+            dockerfile: Dockerfile
+        depends_on:
+            - sqlServer
+            - authapi
+          #  - eureka-server
+        environment:
+            ConnectionStrings__constr : 'Server=sqlServer,1433;Database=Ecom_Product;User Id=SA;Password=MyVeryStrongPassword123;Encrypt=False'
+            ASPNETCORE_URLS : "http://+:80"
+            ASPNETCORE_ENVIRONMENT: "Development"
+ 
+
+    cartapi:
+        container_name: cartapi
+        image: amisha908/cartapi
+        ports:
+            - "7003:80"
+        networks:
+            backend_network:
+                ipv4_address: "172.20.0.11"
+        build:
+            context: ./Ecom.Services.CartAPI
+            dockerfile: Dockerfile
+        depends_on:
+            - sqlServer
+            - authapi
+            - productapi
+            - eureka-server
+        environment:
+            ConnectionStrings__constr : 'Server=sqlServer,1433;Database=Ecom_Cart;User Id=SA;Password=MyVeryStrongPassword123;Encrypt=False'
+            ASPNETCORE_URLS : "http://+:80"
+            ASPNETCORE_ENVIRONMENT: "Development"
+
+    emailapi:
+        container_name: emailapi
+        image: amisha908/emailapi
+        ports:
+            - "7107:80"
+        networks:
+            backend_network:
+                ipv4_address: "172.20.0.12"
+        build:
+            context: ./Ecom.Services.EmailAPI
+            dockerfile: Dockerfile
+        depends_on:
+            - sqlServer
+            - Rabbitmq
+        environment:
+            ConnectionStrings__constr : 'Server=sqlServer,1433;Database=Ecom_Email;User Id=SA;Password=MyVeryStrongPassword123;Encrypt=False'
+            ConnectionStrings__RabbitMQConnection : 'amqp://guest:guest@172.20.0.1:15001/'
+            ASPNETCORE_URLS : "http://+:80"
+            ASPNETCORE_ENVIRONMENT: "Development"
+
+    gatewayapi:
+        container_name: gatewayapi
+        build:
+            context: ./WebAPIGateway
+            dockerfile: Dockerfile
+        image: amisha908/gateway
+        ports:
+            - "7777:80"
+        networks:
+            backend_network:
+                ipv4_address: "172.20.0.3"
+        depends_on:
+            - sqlServer
+            - authapi
+            - productapi
+            - Rabbitmq
+            - cartapi
+            - eureka-server
+        environment:
+            ASPNETCORE_URLS : "http://+:80"
+ 
+ 
+ 
+ 
+    sqlServer:
+        container_name: sqlServer
+        image: mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+        ports:
+            - "1433:1433"
+        restart: always
+        networks:
+            backend_network:
+                ipv4_address: "172.20.0.4"
+        environment:
+            ACCEPT_EULA : 'Y'
+            MSSQL_SA_PASSWORD : MyVeryStrongPassword123
+            MSSQL_PID : 'Express'
+ 
+    Rabbitmq:
+        container_name: RabbitMQServer
+        image: rabbitmq:3-management
+        ports:
+            - "15000:15672"
+            - "15001:5672"
+        restart: always
+        networks:
+            backend_network:
+                ipv4_address: "172.20.0.9"
+        environment:
+            RABBITMQ_DEFAULT_USER : guest
+            RABBITMQ_DEFAULT_PASS : guest
+ 
+
+networks:
+    backend_network:
+        ipam:
+            driver: default
+            config:
+                - subnet: "172.20.0.0/24"
+
+
+
+
+
+
+
+
+
+#     version: '3.4'
+# services:
+#     eurekaService:
+#         container_name: eurekaService
+#         image: steeltoeoss/eureka-server
+#         ports:
+#             - "8761:8761"
+#         networks:
+#             e_commerce:
+#                 ipv4_address: "172.20.0.8"
+ 
+#     couponApi:
+#         container_name: couponApi
+#         image: swatantra/coupoun_api
+#         ports:
+#             - "7001:80"
+#         build:
+#             context: ./E-Commerce.Services.CouponAPI
+#             dockerfile: Dockerfile
+#         networks:
+#             e_commerce:
+#                 ipv4_address: "172.20.0.6"
+#         depends_on:
+#             - sqlServer
+#             - eurekaService
+#         environment:
+#             ConnectionStrings__DefaultConnection : 'Server=sqlServer,1433;Database=ECommerce_Coupon;User Id=SA;Password=MyVeryStrongPassword123!;Encrypt=False'
+#             ASPNETCORE_URLS : "http://+:80"
+#             ASPNETCORE_ENVIRONMENT: "Development"
+ 
+    # productApi:
+    #     container_name: productApi
+    #     image: swatantra/product_api
+    #     ports:
+    #         - "7000:80"
+    #     build:
+    #         context: ./E-Commerce.Services.ProductAPI
+    #         dockerfile: Dockerfile
+    #     networks:
+    #         e_commerce:
+    #             ipv4_address: "172.20.0.5"
+    #     depends_on:
+    #         - sqlServer
+    #         - authApi
+    #     environment:
+    #         ConnectionStrings__DefaultConnection : 'Server=sqlServer,1433;Database=ECommerce_Product;User Id=SA;Password=MyVeryStrongPassword123!;Encrypt=False'
+    #         ASPNETCORE_URLS : "http://+:80"
+    #         ASPNETCORE_ENVIRONMENT: "Development"
+ 
+    # authApi:
+    #     container_name: authApi
+    #     image: swatantra/auth_api
+    #     ports:
+    #         - "7002:80"
+    #     networks:
+    #         e_commerce:
+    #             ipv4_address: "172.20.0.2"
+    #     build:
+    #         context: ./E-Commerce.Services.AuthAPI
+    #         dockerfile: Dockerfile
+    #     depends_on:
+    #         - sqlServer
+    #         - Rabbitmq
+    #     environment:
+    #         ConnectionStrings__DefaultConnection : 'Server=sqlServer,1433;Database=ECommerce_Auth;User Id=SA;Password=MyVeryStrongPassword123!;Encrypt=False'
+    #         ConnectionStrings__RabbitmqConnection : 'amqp://user:passw0rd@172.18.0.1:15001/'
+    #         ASPNETCORE_URLS : "http://+:80"
+    #         ASPNETCORE_ENVIRONMENT: "Development"
+ 
+    # emailApi:
+    #     container_name: emailApi
+    #     image: swatantra/email_api
+    #     ports:
+    #         - "7237:80"
+    #     networks:
+    #         e_commerce:
+    #             ipv4_address: "172.20.0.7"
+    #     build:
+    #         context: ./E-Commerce.Services.EmailAPI
+    #         dockerfile: Dockerfile
+    #     depends_on:
+    #         - sqlServer
+    #         - Rabbitmq
+    #     environment:
+    #         ConnectionStrings__DefaultConnection : 'Server=sqlServer,1433;Database=ECommerce_Emai;User Id=SA;Password=MyVeryStrongPassword123!;Encrypt=False'
+    #         ConnectionStrings__RabbitmqConnection : 'amqp://user:passw0rd@172.18.0.1:15001/'
+    #         ASPNETCORE_URLS : "http://+:80"
+    #         ASPNETCORE_ENVIRONMENT: "Development"
+ 
+ 
+    # cartApi:
+    #     container_name: cartApi
+    #     image: swatantra/cart_api
+    #     build:
+    #         context: ./E-Commerce.Services.ShoppingCartAPI
+    #         dockerfile: Dockerfile
+    #     networks:
+    #         e_commerce:
+    #             ipv4_address: "172.20.0.7"
+    #     depends_on:
+    #         - sqlServer
+    #         - authApi
+    #         - productApi
+    #         - couponApi
+    #         # - eurekaService
+    #     environment:
+    #         ConnectionStrings__DefaultConnection : 'Server=sqlServer,1433;Database=ECommerce_Auth;User Id=SA;Password=MyVeryStrongPassword123!;Encrypt=False'
+    #         ASPNETCORE_URLS : "http://+:80"
+    #         ASPNETCORE_ENVIRONMENT: "Development"
+ 
+    # gatewayApi:
+    #     container_name: gatewayApi
+    #     build:
+    #         context: ./E-Commerce.GatewaySolution
+    #         dockerfile: Dockerfile
+    #     image: swatantra/gateway
+    #     ports:
+    #         - "7777:80"
+    #     networks:
+    #         e_commerce:
+    #             ipv4_address: "172.20.0.3"
+    #     depends_on:
+    #         - sqlServer
+    #         - authApi
+    #         - productApi
+    #         - couponApi
+    #         - Rabbitmq
+    #         # - cartApi
+    #         - eurekaService
+    #     environment:
+    #         ASPNETCORE_URLS : "http://+:80"
+ 
+ 
+ 
+ 
+    # sqlServer:
+    #     container_name: sqlServer
+    #     image: mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+    #     ports:
+    #         - "1433:1433"
+    #     restart: always
+    #     networks:
+    #         e_commerce:
+    #             ipv4_address: "172.20.0.4"
+    #     environment:
+    #         ACCEPT_EULA : 'Y'
+    #         MSSQL_SA_PASSWORD : MyVeryStrongPassword123!
+    #         MSSQL_PID : 'Express'
+ 
+    # Rabbitmq:
+    #     container_name: RabbitMQServer
+    #     image: rabbitmq:3-management
+    #     ports:
+    #         - "15000:15672"
+    #         - "15001:5672"
+    #     restart: always
+    #     networks:
+    #         e_commerce:
+    #             ipv4_address: "172.20.0.9"
+    #     environment:
+    #         RABBITMQ_DEFAULT_USER : user
+#             RABBITMQ_DEFAULT_PASS : passw0rd
+ 
+ 
+# networks:
+#     e_commerce :
+#         ipam:
+#             driver: default
+#             config:
+#                 - subnet: "172.20.0.0/24"
+ 
+ 

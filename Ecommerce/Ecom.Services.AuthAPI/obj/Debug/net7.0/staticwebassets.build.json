@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "BxYK/pRFQQ1f9hYLw5O6AC5d5OlT54wSFNcVzSKGyuA=",
+  "Source": "Ecom.Services.AuthAPI",
+  "BasePath": "_content/Ecom.Services.AuthAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

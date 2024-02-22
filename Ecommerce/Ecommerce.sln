@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{2A101D12-7B59-48FF-B020-C8272E68CC9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{87D4AFEE-FB94-4C68-BA11-63F7E103BB60}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecom.Services.ProductAPI", "Ecom.Services.ProductAPI\Ecom.Services.ProductAPI.csproj", "{42450815-EDF9-48D2-AD83-F02F3EB2D7C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecom.Services.AuthAPI", "Ecom.Services.AuthAPI\Ecom.Services.AuthAPI.csproj", "{783A5211-91A3-4D40-99F6-69ED963D0F4F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecom.Services.CartAPI", "Ecom.Services.CartAPI\Ecom.Services.CartAPI.csproj", "{9C0DD7E2-980A-4714-86FC-A330EDADE659}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPIGateway", "Ocelot\WebAPIGateway.csproj", "{02E03DDB-CBE4-40E3-82CF-31059A90A073}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecom.Services.EmailAPI", "Ecom.Services.EmailAPI\Ecom.Services.EmailAPI.csproj", "{0FCD34AF-04CD-43EE-8688-B87644F6EE56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42450815-EDF9-48D2-AD83-F02F3EB2D7C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42450815-EDF9-48D2-AD83-F02F3EB2D7C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42450815-EDF9-48D2-AD83-F02F3EB2D7C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42450815-EDF9-48D2-AD83-F02F3EB2D7C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{783A5211-91A3-4D40-99F6-69ED963D0F4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{783A5211-91A3-4D40-99F6-69ED963D0F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{783A5211-91A3-4D40-99F6-69ED963D0F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{783A5211-91A3-4D40-99F6-69ED963D0F4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C0DD7E2-980A-4714-86FC-A330EDADE659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C0DD7E2-980A-4714-86FC-A330EDADE659}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C0DD7E2-980A-4714-86FC-A330EDADE659}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C0DD7E2-980A-4714-86FC-A330EDADE659}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02E03DDB-CBE4-40E3-82CF-31059A90A073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02E03DDB-CBE4-40E3-82CF-31059A90A073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02E03DDB-CBE4-40E3-82CF-31059A90A073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02E03DDB-CBE4-40E3-82CF-31059A90A073}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FCD34AF-04CD-43EE-8688-B87644F6EE56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FCD34AF-04CD-43EE-8688-B87644F6EE56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FCD34AF-04CD-43EE-8688-B87644F6EE56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FCD34AF-04CD-43EE-8688-B87644F6EE56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{42450815-EDF9-48D2-AD83-F02F3EB2D7C3} = {87D4AFEE-FB94-4C68-BA11-63F7E103BB60}
+		{783A5211-91A3-4D40-99F6-69ED963D0F4F} = {87D4AFEE-FB94-4C68-BA11-63F7E103BB60}
+		{9C0DD7E2-980A-4714-86FC-A330EDADE659} = {87D4AFEE-FB94-4C68-BA11-63F7E103BB60}
+		{02E03DDB-CBE4-40E3-82CF-31059A90A073} = {2A101D12-7B59-48FF-B020-C8272E68CC9E}
+		{0FCD34AF-04CD-43EE-8688-B87644F6EE56} = {87D4AFEE-FB94-4C68-BA11-63F7E103BB60}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7AD4E708-74CC-416B-AB0A-48346884CE5C}
+	EndGlobalSection
+EndGlobal

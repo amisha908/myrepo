@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "aukuY5TPOHEVUqdwSrSzcBQmzHuH+IeooC/nef4emUY=",
+  "Source": "Ecom.Services.EmailAPI",
+  "BasePath": "_content/Ecom.Services.EmailAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

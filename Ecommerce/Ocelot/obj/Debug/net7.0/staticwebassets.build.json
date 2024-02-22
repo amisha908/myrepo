@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "XUboL0K83XNXCwrwycKu5Qqsv35P4TjQwLgii+H5K7k=",
+  "Source": "WebAPIGateway",
+  "BasePath": "_content/WebAPIGateway",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
